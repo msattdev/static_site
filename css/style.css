@@ -39,7 +39,7 @@ body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(
 .contact a{color:var(--accent)}
 .site-footer{padding:2rem 0;color:var(--muted);text-align:center}
 @media (max-width:1000px){.top-grid{grid-template-columns:1fr 300px}}
-@media (max-width:800px){.top-grid{grid-template-columns:1fr;gap:1.25rem}.about-card{order:-1}}
+@media (max-width:800px){.top-grid{grid-template-columns:1fr;gap:1.25rem}}
 @media (max-width:700px){.hero-inner{flex-direction:column;align-items:flex-start}.site-nav{display:none}}
 /* Year progress bar */
 .year-progress{margin:1rem 0;padding:.9rem;background:var(--card);border:1px solid rgba(255,255,255,0.04);border-radius:8px}
