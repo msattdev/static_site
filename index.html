@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MSattDev</title>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="top">
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title"><a href="#top">MSattDev</a></h1>
+      <nav class="site-nav" aria-label="Top navigation">
+        <div id="clock" class="site-clock" aria-live="polite">00:00:00</div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="top-grid section">
+      <div class="hero">
+        <div class="hero-inner">
+          <img src="img/avatarr.jpg" alt="avatar" class="avatar">
+          <div>
+            <h2>Hi, I'm Matt Satterfield</h2>
+            <p class="lead">Welcome to my site! Here you'll find a bit about my work and projects.</p>
+            <p><a class="cta" href="#projects">See Projects</a></p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="about-card">
+        <h2>About</h2>
+        <p>I'm a Security Researcher by trade and a wanna-be Software Developer by passion. I enjoy building web applications and creating tools that make life easier.</p>
+      </aside>
+    </section>
+
+    <section id="year-progress-section" class="section">
+      <h2>Year Progress... make every day count!</h2>
+      <div id="year-progress" class="year-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="year-progress-track">
+          <div class="year-progress-fill" style="width:0%"></div>
+        </div>
+        <div class="year-progress-label"><span class="elapsed">0%</span> • elapsed • <span class="remaining">0 days left</span></div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div id="projects-grid" class="projects-grid">
+        <!-- projects rendered by js -->
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <h2>Contact</h2>
+      <p>Reach me at <a href="mailto:mattsattdev@gmail.com">mattsattdev@gmail.com</a></p>
+      <p>Find my work on <a href="https://github.com/msattdev" target="_blank" rel="noopener">GitHub</a>.</p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>&copy; Live Laugh Code</small>
+    </div>
+  </footer>
+
+  <script src="js/clock.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/projects.js"></script>
+</body>
+</html>

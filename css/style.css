@@ -1,0 +1,51 @@
+/* Copied site styles (kept compact). Adjust paths as needed. */
+:root{
+  --bg: #141414;
+  --surface: #262626;
+  --card: #1f1f1f;
+  --muted: #cfcfc4;
+  --text: #e7e7e2;
+  --accent: #d6ff00; /* neon lime */
+  --accent-2: #ff2a8a; /* magenta */
+  --max-width: 1000px;
+}
+[data-theme="light"]{ --bg: #fbfbfb; --surface: #ffffff; --card: #f6f6f6; --muted: #555; --text: #111; --accent: #0b7285; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+.container{max-width:var(--max-width);margin:0 auto;padding:2rem}
+.header-inner{display:flex;align-items:center;gap:1rem}
+.site-header{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:2px solid rgba(255,255,255,0.03);backdrop-filter:saturate(120%)}
+.site-title{margin:0;font-size:1.1rem}
+.site-title a{color:var(--accent);text-decoration:none}
+.site-nav{margin-left:auto;display:flex;align-items:center;gap:1rem}
+.site-clock{color:var(--muted);padding:.35rem .6rem;border-radius:6px;border:1px solid rgba(255,255,255,0.03);font-weight:700;font-variant-numeric:tabular-nums}
+.top-grid{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start;align-content:start}
+.hero{padding:0}
+.hero-inner{display:flex;gap:1.5rem;align-items:center}
+.avatar{width:150px;height:150px;border-radius:8px;border:2px solid var(--accent);background:transparent;transition:transform 700ms cubic-bezier(.2,.9,.2,1), border-color 250ms ease;transform-origin:center center;cursor:pointer}
+.avatar:hover, .avatar:focus{transform:scale(1.2);border-color:transparent}
+@media (prefers-reduced-motion: reduce){.avatar{transition:none}.avatar:hover,.avatar:focus{transform:none}}
+.lead{color:var(--muted);max-width:55ch}
+.cta{display:inline-block;margin-top:0.5rem;padding:.5rem .8rem;background:var(--accent);color:#111;border-radius:6px;text-decoration:none}
+.about-card{background:var(--card);padding:1.2rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
+.about-card h2{margin-top:0;color:var(--accent)}
+.section{padding:2.5rem 0}
+.section h2{color:var(--accent);margin-top:0}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));padding:1rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
+.card h3{margin:0 0 .35rem;color:var(--accent)}
+.tag{display:inline-block;background:transparent;border:1px solid rgba(255,255,255,0.03);padding:.12rem .4rem;border-radius:4px;margin-right:.35rem;color:var(--muted);font-size:.8rem}
+.muted{color:var(--muted)}
+.contact a{color:var(--accent)}
+.site-footer{padding:2rem 0;color:var(--muted);text-align:center}
+@media (max-width:1000px){.top-grid{grid-template-columns:1fr 300px}}
+@media (max-width:800px){.top-grid{grid-template-columns:1fr;gap:1.25rem}.about-card{order:-1}}
+@media (max-width:700px){.hero-inner{flex-direction:column;align-items:flex-start}.site-nav{display:none}}
+/* Year progress bar */
+.year-progress{margin:1rem 0;padding:.9rem;background:var(--card);border:1px solid rgba(255,255,255,0.04);border-radius:8px}
+.year-progress-track{background:rgba(255,255,255,0.02);height:12px;border-radius:999px;overflow:hidden;margin:.6rem 0}
+.year-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width 600ms cubic-bezier(.2,.9,.2,1)}
+.year-progress-label{display:flex;justify-content:space-between;font-size:.95rem;color:var(--muted);align-items:center}
+.year-progress .elapsed{font-weight:700;color:var(--accent)}
+@media (max-width:500px){.year-progress-label{font-size:.8rem;flex-direction:column;align-items:flex-start;gap:.4rem}}
