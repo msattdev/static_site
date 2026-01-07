@@ -3,7 +3,7 @@ const PROJECTS = [
   {
     title: "Minimalist Portfolio",
     description: "You're looking at it! The goal was to create a clean, responsive portfolio site using only HTML, CSS, and JavaScript. No frameworks, just pure web technologies. Feel free to explore the source code on GitHub.",
-    url: "#",
+    url: "https://msattdev.github.io/static_site/",
     tags: ["HTML/CSS", "JavaScript"],
   },
   {
@@ -15,7 +15,7 @@ const PROJECTS = [
   {
     title: "Automate the Boring Stuff Projects",
     description: "This repository contains various projects created while working through 'Automate the Boring Stuff with Python' by Al Sweigart. The projects focus on automating everyday tasks using Python scripts.",
-    url: "https://github.com/msattdev/100_days_of_python",
+    url: "#",
     tags: ["Python"],
   }
 ];
