@@ -9,19 +9,21 @@
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#d6ff00">
 </head>
-<body id="top">
+<body id="top" class="is-loading">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <header class="site-header">
     <div class="container header-inner">
       <h1 class="site-title"><a href="#top">MSattDev</a></h1>
       <nav class="site-nav" aria-label="Top navigation">
         <div id="clock" class="site-clock" aria-live="polite">00:00:00</div>
+        <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Toggle theme">🌗</button>
       </nav>
     </div>
   </header>
 
   <main class="container">
 
-    <section class="top-grid section">
+    <section class="top-grid section reveal" data-reveal-delay="0">
       <div class="hero">
         <div class="hero-inner">
           <img src="img/avatarr.jpg" alt="avatar" class="avatar">
@@ -39,7 +41,7 @@
       </aside>
     </section>
 
-    <section id="year-progress-section" class="section">
+    <section id="year-progress-section" class="section reveal" data-reveal-delay="150">
       <h2>Year Progress... make every day count!</h2>
       <div id="year-progress" class="year-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="year-progress-track">
@@ -49,14 +51,14 @@
       </div>
     </section>
 
-    <section id="projects" class="section">
+    <section id="projects" class="section reveal" data-reveal-delay="300">
       <h2>Projects</h2>
       <div id="projects-grid" class="projects-grid">
         <!-- projects rendered by js -->
       </div>
     </section>
 
-    <section id="contact" class="section contact">
+    <section id="contact" class="section contact reveal" data-reveal-delay="450">
       <h2>Contact</h2>
       <p>Reach me at <a href="mailto:mattsattdev@gmail.com">mattsattdev@gmail.com</a></p>
       <p>Find my work on <a href="https://github.com/msattdev" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -73,5 +75,6 @@
   <script src="js/clock.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/projects.js"></script>
+  <script src="js/animations.js"></script>
 </body>
 </html>

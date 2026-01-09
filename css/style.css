@@ -14,7 +14,8 @@ html{scroll-behavior:smooth}
 body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
 .container{max-width:var(--max-width);margin:0 auto;padding:2rem}
 .header-inner{display:flex;align-items:center;gap:1rem}
-.site-header{position:sticky;top:0;z-index:50;background:var(--surface);border-bottom:2px solid rgba(255,255,255,0.03);backdrop-filter:saturate(120%)}
+.site-header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(14,14,18,0.62), rgba(14,14,18,0.36));border-bottom:2px solid rgba(255,255,255,0.03);backdrop-filter:blur(8px) saturate(120%)}
+[data-theme="light"] .site-header{background:var(--surface);backdrop-filter:none}
 .site-title{margin:0;font-size:1.1rem}
 .site-title a{color:var(--accent);text-decoration:none}
 .site-nav{margin-left:auto;display:flex;align-items:center;gap:1rem}
@@ -48,3 +49,62 @@ body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(
 .year-progress-label{display:flex;justify-content:space-between;font-size:.95rem;color:var(--muted);align-items:center}
 .year-progress .elapsed{font-weight:700;color:var(--accent)}
 @media (max-width:500px){.year-progress-label{font-size:.8rem;flex-direction:column;align-items:flex-start;gap:.4rem}}
+
+/* ===== Futuristic UI & Animations ===== */
+/* Background canvas sits behind content */
+#bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.85}
+
+/* Smooth page fade-in */
+body{transition:opacity 600ms cubic-bezier(.2,.9,.2,1);will-change:opacity}
+body.is-loading{opacity:0}
+
+/* Reveal-on-scroll defaults */
+.reveal{opacity:0;transform:translateY(18px) scale(.995);transition:opacity 650ms cubic-bezier(.2,.9,.2,1) var(--reveal-delay,0ms),transform 650ms cubic-bezier(.2,.9,.2,1) var(--reveal-delay,0ms);will-change:opacity,transform}
+.reveal.is-visible{opacity:1;transform:none}
+
+/* Neon headings and glows */
+.section h2{letter-spacing:0.4px;text-shadow:0 8px 30px rgba(0,0,0,0.6)}
+.glow{color:var(--accent);text-shadow:0 0 10px rgba(214,255,0,.12),0 0 30px rgba(255,42,138,.06)}
+
+/* Theme toggle */
+.theme-toggle{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--accent);padding:.35rem .5rem;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1rem}
+.theme-toggle:hover{box-shadow:0 4px 30px rgba(214,255,0,.06);transform:translateY(-2px)}
+.theme-toggle:focus{outline:2px solid rgba(214,255,0,.14);outline-offset:2px}
+
+/* Card hover elevation */
+.card{transition:transform 350ms cubic-bezier(.2,.9,.2,1),box-shadow 350ms ease,border-color 350ms ease}
+.card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 45px rgba(0,0,0,.55);border-color:rgba(255,255,255,0.06)}
+
+/* Subtle animated gradient overlay for accent */
+:root{--fut-bg-anim: linear-gradient(120deg, rgba(214,255,0,0.06), rgba(255,42,138,0.04));}
+body::after{content:"";position:fixed;inset:0;z-index:-1;mix-blend-mode:screen;background:var(--fut-bg-anim);opacity:.6;pointer-events:none;animation:shiftBG 12s linear infinite}
+@keyframes shiftBG{0%{transform:translate3d(-10%,0,0)}50%{transform:translate3d(10%,0,0)}100%{transform:translate3d(-10%,0,0)}}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){body{transition:none} .reveal{transition:none} body::after{animation:none} .avatar{transition:none}}
+
+/* Small screens: make header more compact */
+@media (max-width:700px){.theme-toggle{display:none}}
+
+/* Typography & micro-interactions */
+.hero-inner h2{font-size:1.65rem;margin:0 0 .4rem;line-height:1.05;color:var(--text)}
+@media (min-width:900px){.hero-inner h2{font-size:2.25rem}}
+
+/* Shimmering site title */
+.site-title a{position:relative;display:inline-block}
+.site-title a::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.35), rgba(255,255,255,0));transform:translateX(-110%);pointer-events:none}
+.site-title a:hover::after, .site-title a:focus::after{animation:shimmer 1.2s ease}
+@keyframes shimmer{to{transform:translateX(110%)}}
+
+/* Avatar glow pulse */
+.avatar{box-shadow:0 6px 28px rgba(214,255,0,0.03)}
+.avatar::after{content:"";position:absolute;pointer-events:none}
+.avatar:hover{box-shadow:0 18px 45px rgba(214,255,0,0.08)}
+
+/* CTA micro-interaction */
+.cta{transition:transform 200ms cubic-bezier(.2,.9,.2,1),box-shadow 200ms}
+.cta:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 30px rgba(214,255,0,0.08)}
+
+/* Focus outlines for accessibility */
+:focus{outline-offset:3px}
+a:focus, button:focus{outline:2px solid rgba(214,255,0,0.12)}

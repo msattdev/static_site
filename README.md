@@ -13,6 +13,15 @@
 
 ---
 
+## New: Futuristic redesign ✨
+
+- Updated styling with neon accents, animated gradient overlays, and reveal/hover micro-interactions.
+- Background canvas particle effect (disabled when the user prefers reduced motion or on small screens to save battery).
+- Theme toggle (dark/light) saved to localStorage and accessible via the header button.
+- Accessibility: respects `prefers-reduced-motion` and provides clear focus outlines for keyboard users.
+
+---
+
 ## Contributing & Contact
 
 If you want to suggest changes or send new project links, open an issue or email me at **mattsattdev@gmail.com**. More content is on the way — stay tuned! 💡

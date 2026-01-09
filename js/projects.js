@@ -24,9 +24,10 @@ function renderProjects(){
   const container = document.getElementById('projects-grid');
   if(!container) return;
   container.innerHTML = ''; // clear
-  PROJECTS.forEach(p => {
+  PROJECTS.forEach((p, i) => {
     const art = document.createElement('article');
-    art.className = 'card';
+    art.className = 'card reveal';
+    art.dataset.revealDelay = (120 * i).toString();
     art.innerHTML = `
       <h3>${p.title}</h3>
       <p>${p.description}</p>
