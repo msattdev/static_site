@@ -39,8 +39,8 @@
       const root = document.documentElement;
       if(toggle){
         const stored = localStorage.getItem('theme');
-        const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-        let theme = stored || (prefersLight ? 'light' : 'dark');
+        // Default to dark mode for new visitors; preserve any previously stored preference
+        let theme = stored || 'dark';
         const applyTheme = (t)=>{
           if(t === 'light'){
             root.setAttribute('data-theme','light');

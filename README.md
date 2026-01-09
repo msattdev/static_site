@@ -18,6 +18,7 @@
 - Updated styling with neon accents, animated gradient overlays, and reveal/hover micro-interactions.
 - Background canvas particle effect (disabled when the user prefers reduced motion or on small screens to save battery).
 - Theme toggle (dark/light) saved to localStorage and accessible via the header button.
+- Dark mode is now the default (overrides OS preference by default; users can toggle in the header).
 - Accessibility: respects `prefers-reduced-motion` and provides clear focus outlines for keyboard users.
 
 ---
