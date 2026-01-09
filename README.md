@@ -1,6 +1,6 @@
 # MSattDev — Project Portfolio
 
-**Welcome!** This repository contains a static, self‑contained portfolio website for **Matt Satterfield** (MSattDev). The site showcases projects, contact information, and a few small interactive widgets — more projects and updates are coming soon. ✅
+**Welcome!** This repository contains a static, self‑contained portfolio website. The site showcases projects, contact information, and a few small interactive widgets — more projects and updates are coming soon. ✅
 
 ---
 

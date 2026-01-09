@@ -15,7 +15,7 @@ const PROJECTS = [
   {
     title: "Automate the Boring Stuff Projects",
     description: "This repository contains various projects created while working through 'Automate the Boring Stuff with Python' by Al Sweigart. The projects focus on automating everyday tasks using Python scripts.",
-    url: "#",
+    url: "https://github.com/msattdev/automate_boring_stuff",
     tags: ["Python"],
   }
 ];
