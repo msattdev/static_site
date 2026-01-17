@@ -17,6 +17,12 @@ const PROJECTS = [
     description: "This repository contains various projects created while working through 'Automate the Boring Stuff with Python' by Al Sweigart. The projects focus on automating everyday tasks using Python scripts.",
     url: "https://github.com/msattdev/automate_boring_stuff",
     tags: ["Python"],
+  },
+  {
+    title: "Scan Me Maybe",
+    description: "A simple Python application that generates QR codes for URLs, text, or other data. Built using the 'qrcode' library, this project demonstrates basic Python programming and file handling.",
+    url: "https://github.com/msattdev/Scan-Me-Maybe",
+    tags: ["Python"],
   }
 ];
 
