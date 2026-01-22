@@ -18,6 +18,11 @@ body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(
 [data-theme="light"] .site-header{background:var(--surface);backdrop-filter:none}
 .site-title{margin:0;font-size:1.1rem}
 .site-title a{color:var(--accent);text-decoration:none}
+.social-links{display:flex;align-items:center;justify-content:center;gap:1rem;flex:1}
+.social-icon{width:24px;height:24px;color:var(--accent);transition:transform 200ms cubic-bezier(.2,.9,.2,1),color 200ms ease}
+.social-links a{display:inline-flex;align-items:center;justify-content:center;padding:.35rem;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;text-decoration:none;transition:border-color 200ms ease,box-shadow 200ms ease}
+.social-links a:hover{border-color:rgba(214,255,0,0.2);box-shadow:0 4px 15px rgba(214,255,0,0.06)}
+.social-links a:hover .social-icon{transform:scale(1.15)}
 .site-nav{margin-left:auto;display:flex;align-items:center;gap:1rem}
 .site-clock{color:var(--muted);padding:.35rem .6rem;border-radius:6px;border:1px solid rgba(255,255,255,0.03);font-weight:700;font-variant-numeric:tabular-nums}
 .top-grid{display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:start;align-content:start}
