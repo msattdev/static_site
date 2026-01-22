@@ -46,7 +46,8 @@ body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(
 .site-footer{padding:2rem 0;color:var(--muted);text-align:center}
 @media (max-width:1000px){.top-grid{grid-template-columns:1fr 300px}}
 @media (max-width:800px){.top-grid{grid-template-columns:1fr;gap:1.25rem}}
-@media (max-width:700px){.hero-inner{flex-direction:column;align-items:flex-start}.site-nav{display:flex}.site-nav>*:not(.site-clock){display:none}.site-clock{display:inline-flex}}
+@media (max-width:700px){.hero-inner{flex-direction:column;align-items:flex-start}.site-nav{display:flex}.site-nav>*:not(.site-clock){display:none}.site-clock{display:inline-flex}.social-links{gap:.5rem}.social-icon{width:20px;height:20px}}
+@media (max-width:600px){.site-clock{display:none}.social-links{gap:.4rem}.social-icon{width:18px;height:18px}}
 /* Year progress bar */
 .year-progress{margin:1rem 0;padding:.9rem;background:var(--card);border:1px solid rgba(255,255,255,0.04);border-radius:8px}
 .year-progress-track{background:rgba(255,255,255,0.02);height:12px;border-radius:999px;overflow:hidden;margin:.6rem 0}
