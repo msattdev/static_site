@@ -48,8 +48,9 @@ class VisitorInfo {
       const data = await response.json();
       console.log('IP API response:', data);
 
-      this.visitorIP = data.ip;
-      console.log('Visitor IP set:', this.visitorIP);
+      // Prefer IPv4, fallback to IPv6, then fallback to generic ip field
+      this.visitorIP = data.ipv4 || data.ipv6 || data.ip;
+      console.log('Visitor IP set:', this.visitorIP, '(IPv4:', data.ipv4, ', IPv6:', data.ipv6, ')');
     } catch (error) {
       console.log('IP API failed:', error.message);
       // Try alternative API
@@ -60,7 +61,7 @@ class VisitorInfo {
   // Try alternative API for IP address
   async getVisitorIPAlternative() {
     try {
-      console.log('Trying alternative IP API');
+      console.log('Trying alternative IP API for IPv4');
       const response = await fetch('https://api.ipify.org?format=json', {
         mode: 'cors',
         method: 'GET'
@@ -78,6 +79,32 @@ class VisitorInfo {
       console.log('Visitor IP set from alternative API:', this.visitorIP);
     } catch (error) {
       console.log('Alternative IP API failed:', error.message);
+      // Try IPv6 fallback
+      this.getVisitorIPv6Fallback();
+    }
+  }
+
+  // Fallback to IPv6 if IPv4 fails
+  async getVisitorIPv6Fallback() {
+    try {
+      console.log('Trying IPv6 fallback');
+      const response = await fetch('https://api6.ipify.org?format=json', {
+        mode: 'cors',
+        method: 'GET'
+      });
+
+      if (!response.ok) {
+        console.log('IPv6 API response not ok:', response.status);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('IPv6 API response:', data);
+
+      this.visitorIP = data.ip;
+      console.log('Visitor IP set from IPv6 fallback:', this.visitorIP);
+    } catch (error) {
+      console.log('IPv6 fallback failed:', error.message);
       this.visitorIP = 'Unable to detect';
     }
   }
