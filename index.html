@@ -65,6 +65,30 @@
       </div>
     </section>
 
+    <section id="world-map-section" class="section reveal" data-reveal-delay="200">
+      <h2>Global Visitors</h2>
+      <div class="map-container">
+        <div id="world-map" class="world-map">
+          <svg viewBox="0 0 960 600" preserveAspectRatio="xMidYMid meet">
+            <!-- SVG map will be injected here -->
+          </svg>
+          <div id="map-pinpoint" class="map-pinpoint" style="display:none;">
+            <div class="map-pin"></div>
+          </div>
+        </div>
+        <div class="visitor-stats">
+          <div class="stat-card">
+            <div class="stat-label">Total Visitors</div>
+            <div class="stat-value" id="visitor-count">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Your Location</div>
+            <div class="stat-value" id="visitor-location">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="projects" class="section reveal" data-reveal-delay="300">
       <h2>Projects</h2>
       <div id="projects-grid" class="projects-grid">
@@ -89,6 +113,7 @@
   <script src="js/clock.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/projects.js"></script>
+  <script src="js/worldmap.js"></script>
   <script src="js/animations.js"></script>
 </body>
 </html>
