@@ -7,9 +7,9 @@ const PROJECTS = [
     tags: ["HTML/CSS", "JavaScript"],
   },
   {
-    title: "100 Days of Python",
-    description: "This repository tracks small projects built while following Angela Yu's 100 Days of Code: The Complete Python Pro Bootcamp. Each day focuses on a simple, fun project to practice fundamentals and build confidence.",
-    url: "https://github.com/msattdev/100_days_of_python",
+    title: "URL Checker",
+    description: "A simple Python script to check if a given URL is reachable. It uses the 'requests' library to send a GET request and reports the status code. This project is great for learning basic Python programming and working with external libraries.",
+    url: "https://github.com/msattdev/check-url",
     tags: ["Python"],
   },
   {
