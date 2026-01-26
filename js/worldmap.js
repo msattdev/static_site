@@ -1,29 +1,36 @@
 /**
- * World Map with Visitor Tracking using Leaflet
- * Displays an interactive world map with visitor location marker and visitor counter
+ * World Map with Visitor Location Tracking using Leaflet
+ * Displays an interactive world map with visitor location marker
  */
 
 class WorldMapTracker {
   constructor() {
     this.map = null;
     this.userMarker = null;
-    this.visitorCount = this.getVisitorCount();
     this.userLocation = null;
     this.init();
   }
 
   async init() {
+    console.log('WorldMapTracker init started');
     this.initializeMap();
-    this.updateVisitorCount();
+    console.log('Awaiting user location...');
     await this.getUserLocation();
+    console.log('User location obtained, displaying...');
     this.displayUserLocation();
+    console.log('Initialization complete');
   }
 
   // Initialize Leaflet map
   initializeMap() {
+    console.log('Initializing Leaflet map');
     const mapContainer = document.getElementById('world-map');
-    if (!mapContainer) return;
+    if (!mapContainer) {
+      console.log('Map container not found!');
+      return;
+    }
 
+    console.log('Map container found, creating map instance');
     // Create map with custom styling to match site theme
     this.map = L.map('world-map', {
       zoom: 2,
@@ -38,6 +45,8 @@ class WorldMapTracker {
       keyboard: false
     });
 
+    console.log('Map instance created');
+
     // Use OpenStreetMap tiles with dark styling
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
@@ -46,8 +55,11 @@ class WorldMapTracker {
       opacity: 0.8
     }).addTo(this.map);
 
+    console.log('Tile layer added');
+
     // Add subtle grid overlay
     this.addGridOverlay();
+    console.log('Map initialization complete');
   }
 
   // Add subtle grid overlay to map
@@ -80,28 +92,21 @@ class WorldMapTracker {
     gridLines.addTo(this.map);
   }
 
-  // Get or initialize visitor count from localStorage
-  getVisitorCount() {
-    const stored = localStorage.getItem('visitorCount');
-    const count = stored ? parseInt(stored) + 1 : 1;
-    localStorage.setItem('visitorCount', count);
-    localStorage.setItem('lastVisit', new Date().toISOString());
-    return count;
-  }
-
   // Get user's geolocation
   async getUserLocation() {
     return new Promise((resolve) => {
       // Try browser geolocation first
       if (navigator.geolocation) {
         const timeout = setTimeout(() => {
+          console.log('Browser geolocation timeout, trying IP-based detection');
           this.getUserLocationFromIP();
           resolve();
-        }, 6000);
+        }, 8000);
 
         navigator.geolocation.getCurrentPosition(
           (position) => {
             clearTimeout(timeout);
+            console.log('Browser geolocation successful:', position.coords);
             this.userLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -113,12 +118,18 @@ class WorldMapTracker {
           },
           (error) => {
             clearTimeout(timeout);
-            console.log('Geolocation error, trying IP-based detection:', error.message);
+            console.log('Geolocation error:', error.code, error.message);
             this.getUserLocationFromIP();
             resolve();
+          },
+          {
+            timeout: 8000,
+            enableHighAccuracy: false,
+            maximumAge: 0
           }
         );
       } else {
+        console.log('Geolocation not supported, using IP-based detection');
         this.getUserLocationFromIP();
         resolve();
       }
@@ -128,14 +139,22 @@ class WorldMapTracker {
   // Get location from IP address using free API
   async getUserLocationFromIP() {
     try {
+      console.log('Attempting IP geolocation via ipapi.co');
       const response = await fetch('https://ipapi.co/json/', {
         mode: 'cors',
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        console.log('ipapi.co response not ok:', response.status);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
+      console.log('ipapi.co response:', data);
 
       this.userLocation = {
         lat: parseFloat(data.latitude),
@@ -145,9 +164,10 @@ class WorldMapTracker {
         source: 'ip'
       };
 
-      this.getLocationName();
+      console.log('Location set from IP:', this.userLocation);
+      this.displayUserLocation();
     } catch (error) {
-      console.log('IP geolocation failed:', error);
+      console.log('ipapi.co failed:', error.message);
       // Try alternative API
       this.getUserLocationFromAlternativeAPI();
     }
@@ -156,14 +176,19 @@ class WorldMapTracker {
   // Try alternative geolocation API
   async getUserLocationFromAlternativeAPI() {
     try {
+      console.log('Attempting IP geolocation via geolocation-db.com');
       const response = await fetch('https://geolocation-db.com/json/geoip.php', {
         mode: 'cors',
         method: 'GET'
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        console.log('geolocation-db response not ok:', response.status);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
+      console.log('geolocation-db response:', data);
 
       this.userLocation = {
         lat: parseFloat(data.latitude),
@@ -173,9 +198,11 @@ class WorldMapTracker {
         source: 'alt-ip'
       };
 
-      this.getLocationName();
+      console.log('Location set from alternative API:', this.userLocation);
+      this.displayUserLocation();
     } catch (error) {
-      console.log('Alternative API failed, using defaults:', error);
+      console.log('Alternative API failed:', error.message);
+      console.log('Using default location (0, 0)');
       this.userLocation = {
         lat: 0,
         lng: 0,
@@ -191,12 +218,24 @@ class WorldMapTracker {
   async getLocationName() {
     // IP APIs already provide city and country
     // No need for reverse geocoding
+    console.log('Location name ready, displaying location');
     this.displayUserLocation();
   }
 
   // Display user location on map
   displayUserLocation() {
-    if (!this.userLocation || !this.map) return;
+    console.log('displayUserLocation called, map:', this.map, 'location:', this.userLocation);
+    
+    if (!this.userLocation) {
+      console.log('No user location, cannot display');
+      return;
+    }
+
+    if (!this.map) {
+      console.log('Map not initialized yet, retrying in 500ms');
+      setTimeout(() => this.displayUserLocation(), 500);
+      return;
+    }
 
     // Remove old marker if exists
     if (this.userMarker) {
@@ -204,6 +243,7 @@ class WorldMapTracker {
     }
 
     const { lat, lng, city, country } = this.userLocation;
+    console.log('Creating marker at:', lat, lng, 'for', city, country);
 
     // Create custom marker with neon styling
     const customIcon = L.divIcon({
@@ -242,19 +282,6 @@ class WorldMapTracker {
     if (locationEl) {
       locationEl.textContent = `${city}, ${country}`;
     }
-  }
-
-  // Update visitor count display
-  updateVisitorCount() {
-    const countEl = document.getElementById('visitor-count');
-    if (countEl) {
-      countEl.textContent = this.formatNumber(this.visitorCount);
-    }
-  }
-
-  // Format large numbers with commas
-  formatNumber(num) {
-    return num.toLocaleString();
   }
 }
 
