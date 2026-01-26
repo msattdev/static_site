@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#d6ff00">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 <body id="top" class="is-loading">
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
@@ -68,14 +69,7 @@
     <section id="world-map-section" class="section reveal" data-reveal-delay="200">
       <h2>Global Visitors</h2>
       <div class="map-container">
-        <div id="world-map" class="world-map">
-          <svg viewBox="0 0 960 600" preserveAspectRatio="xMidYMid meet">
-            <!-- SVG map will be injected here -->
-          </svg>
-          <div id="map-pinpoint" class="map-pinpoint" style="display:none;">
-            <div class="map-pin"></div>
-          </div>
-        </div>
+        <div id="world-map" class="world-map"></div>
         <div class="visitor-stats">
           <div class="stat-card">
             <div class="stat-label">Total Visitors</div>
@@ -83,7 +77,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-label">Your Location</div>
-            <div class="stat-value" id="visitor-location">Loading...</div>
+            <div class="stat-value" id="visitor-location">Detecting...</div>
           </div>
         </div>
       </div>
@@ -113,6 +107,7 @@
   <script src="js/clock.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/projects.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="js/worldmap.js"></script>
   <script src="js/animations.js"></script>
 </body>

@@ -58,18 +58,28 @@ body{font-family:'PT Mono',monospace,ui-monospace,sans-serif;margin:0;color:var(
 
 /* World Map Section */
 .map-container{display:grid;grid-template-columns:1fr 300px;gap:2rem;align-items:start}
-.world-map{position:relative;background:var(--card);border:1px solid rgba(255,255,255,0.04);border-radius:8px;overflow:hidden;aspect-ratio:16/10}
-.world-map svg{width:100%;height:100%;fill:rgba(255,255,255,0.05);stroke:rgba(255,255,255,0.08);stroke-width:0.5}
-.map-pinpoint{position:absolute;pointer-events:none;transform:translate(-50%,-50%);z-index:10}
-.map-pin{width:16px;height:16px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px rgba(214,255,0,0.6),0 0 24px rgba(214,255,0,0.3),inset 0 0 8px rgba(255,255,255,0.4);animation:pinPulse 2s ease-in-out infinite}
-@keyframes pinPulse{0%,100%{transform:scale(1);box-shadow:0 0 12px rgba(214,255,0,0.6),0 0 24px rgba(214,255,0,0.3),inset 0 0 8px rgba(255,255,255,0.4)}50%{transform:scale(1.15);box-shadow:0 0 20px rgba(214,255,0,0.8),0 0 40px rgba(214,255,0,0.5),inset 0 0 8px rgba(255,255,255,0.4)}}
+.world-map{background:var(--card);border:1px solid rgba(255,255,255,0.04);border-radius:8px;overflow:hidden;aspect-ratio:16/10;height:400px}
+.world-map .leaflet-container{height:100%;border-radius:8px}
+.leaflet-control-attribution{display:none !important}
+.leaflet-marker-shadow{display:none !important}
 .visitor-stats{display:flex;flex-direction:column;gap:1rem}
 .stat-card{background:var(--card);padding:1.2rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);text-align:center}
 .stat-label{font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:.5rem}
 .stat-value{font-size:1.8rem;color:var(--accent);font-weight:700;line-height:1.2}
-@media (max-width:1000px){.map-container{grid-template-columns:1fr 260px;gap:1.5rem}}
-@media (max-width:800px){.map-container{grid-template-columns:1fr;gap:1.25rem}.visitor-stats{flex-direction:row;gap:1rem}.stat-card{flex:1;padding:1rem}}
-@media (prefers-reduced-motion: reduce){@keyframes pinPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}}
+@media (max-width:1000px){.map-container{grid-template-columns:1fr 260px;gap:1.5rem}.world-map{height:300px}}
+@media (max-width:800px){.map-container{grid-template-columns:1fr;gap:1.25rem}.visitor-stats{flex-direction:row;gap:1rem}.stat-card{flex:1;padding:1rem}.world-map{height:350px}}
+
+/* Custom Visitor Marker */
+.custom-visitor-marker{display:flex;align-items:center;justify-content:center}
+.visitor-marker-inner{position:relative;width:100%;height:100%}
+.visitor-marker-pulse{position:absolute;width:100%;height:100%;background:var(--accent);border-radius:50%;animation:markerPulse 2s ease-in-out infinite;opacity:0.6}
+.visitor-marker-dot{position:absolute;width:50%;height:50%;background:var(--accent);border-radius:50%;top:25%;left:25%;z-index:2;box-shadow:0 0 8px rgba(214,255,0,0.8)}
+@keyframes markerPulse{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(1.3);opacity:0.2}}
+.visitor-popup .leaflet-popup-content{font-family:'PT Mono',monospace !important;font-size:0.85rem !important;color:#d6ff00 !important;background:var(--card) !important;border:1px solid rgba(255,255,255,0.04) !important;border-radius:6px !important;padding:8px !important}
+.leaflet-popup-content-wrapper{background:var(--card) !important;border:1px solid rgba(255,255,255,0.04) !important;border-radius:6px !important;box-shadow:0 0 20px rgba(0,0,0,0.8) !important}
+.leaflet-popup-tip{background:var(--card) !important;border-color:var(--card) !important}
+@media (prefers-reduced-motion: reduce){@keyframes markerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}}
+
 
 /* Background canvas sits behind content */
 #bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.85}

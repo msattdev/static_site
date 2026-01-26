@@ -1,39 +1,83 @@
 /**
- * World Map with Visitor Tracking
- * Displays a world map with visitor location pinpoint and visitor counter
+ * World Map with Visitor Tracking using Leaflet
+ * Displays an interactive world map with visitor location marker and visitor counter
  */
-
-// Simplified world map data (simplified coastlines as paths)
-const worldMapData = {
-  // Major continents and countries as simple path segments
-  paths: [
-    // North America
-    'M100,100 L150,80 L180,90 L170,140 L150,150 L100,130 Z',
-    // South America
-    'M180,180 L210,170 L220,250 L190,270 Z',
-    // Europe
-    'M450,80 L520,70 L530,110 L480,120 Z',
-    // Africa
-    'M480,140 L560,130 L580,250 L520,280 Z',
-    // Asia
-    'M550,80 L700,90 L750,140 L800,120 L820,160 L700,200 L600,180 Z',
-    // Australia
-    'M800,300 L840,310 L830,350 L790,340 Z',
-  ]
-};
 
 class WorldMapTracker {
   constructor() {
+    this.map = null;
+    this.userMarker = null;
     this.visitorCount = this.getVisitorCount();
     this.userLocation = null;
     this.init();
   }
 
   async init() {
-    this.renderMap();
+    this.initializeMap();
     this.updateVisitorCount();
     await this.getUserLocation();
     this.displayUserLocation();
+  }
+
+  // Initialize Leaflet map
+  initializeMap() {
+    const mapContainer = document.getElementById('world-map');
+    if (!mapContainer) return;
+
+    // Create map with custom styling to match site theme
+    this.map = L.map('world-map', {
+      zoom: 2,
+      center: [20, 0],
+      zoomControl: true,
+      attributionControl: false,
+      dragging: true,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      touchZoom: true,
+      boxZoom: false,
+      keyboard: false
+    });
+
+    // Use OpenStreetMap tiles with dark styling
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19,
+      minZoom: 1,
+      attribution: false,
+      opacity: 0.8
+    }).addTo(this.map);
+
+    // Add subtle grid overlay
+    this.addGridOverlay();
+  }
+
+  // Add subtle grid overlay to map
+  addGridOverlay() {
+    if (!this.map) return;
+
+    const gridLines = L.tileLayer.canvas({
+      async: true
+    });
+
+    gridLines.drawTile = (canvas, tilePoint, zoom) => {
+      const ctx = canvas.getContext('2d');
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+
+      // Draw grid lines
+      for (let i = 0; i < 256; i += 64) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, 256);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(256, i);
+        ctx.stroke();
+      }
+    };
+
+    gridLines.addTo(this.map);
   }
 
   // Get or initialize visitor count from localStorage
@@ -45,113 +89,36 @@ class WorldMapTracker {
     return count;
   }
 
-  // Render the SVG map
-  renderMap() {
-    const mapSvg = document.querySelector('.world-map svg');
-    if (!mapSvg) return;
-
-    // Clear existing content
-    mapSvg.innerHTML = '';
-
-    // Add background
-    const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    bg.setAttribute('width', '960');
-    bg.setAttribute('height', '600');
-    bg.setAttribute('fill', 'rgba(255,255,255,0.02)');
-    mapSvg.appendChild(bg);
-
-    // Add grid lines
-    for (let i = 0; i <= 960; i += 120) {
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', i);
-      line.setAttribute('y1', '0');
-      line.setAttribute('x2', i);
-      line.setAttribute('y2', '600');
-      line.setAttribute('stroke', 'rgba(255,255,255,0.02)');
-      line.setAttribute('stroke-width', '0.5');
-      mapSvg.appendChild(line);
-    }
-
-    for (let i = 0; i <= 600; i += 100) {
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', '0');
-      line.setAttribute('y1', i);
-      line.setAttribute('x2', '960');
-      line.setAttribute('y2', i);
-      line.setAttribute('stroke', 'rgba(255,255,255,0.02)');
-      line.setAttribute('stroke-width', '0.5');
-      mapSvg.appendChild(line);
-    }
-
-    // Add continents as simplified shapes
-    worldMapData.paths.forEach(pathData => {
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', pathData);
-      path.setAttribute('fill', 'rgba(214,255,0,0.08)');
-      path.setAttribute('stroke', 'rgba(214,255,0,0.2)');
-      path.setAttribute('stroke-width', '1');
-      mapSvg.appendChild(path);
-    });
-
-    // Add equator and prime meridian
-    const equator = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    equator.setAttribute('x1', '0');
-    equator.setAttribute('y1', '300');
-    equator.setAttribute('x2', '960');
-    equator.setAttribute('y2', '300');
-    equator.setAttribute('stroke', 'rgba(255,255,255,0.03)');
-    equator.setAttribute('stroke-width', '0.5');
-    equator.setAttribute('stroke-dasharray', '5,5');
-    mapSvg.appendChild(equator);
-
-    const meridian = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    meridian.setAttribute('x1', '480');
-    meridian.setAttribute('y1', '0');
-    meridian.setAttribute('x2', '480');
-    meridian.setAttribute('y2', '600');
-    meridian.setAttribute('stroke', 'rgba(255,255,255,0.03)');
-    meridian.setAttribute('stroke-width', '0.5');
-    meridian.setAttribute('stroke-dasharray', '5,5');
-    mapSvg.appendChild(meridian);
-  }
-
-  // Convert latitude/longitude to map coordinates
-  latLngToMapCoords(lat, lng) {
-    // Mercator projection (simplified)
-    const mapWidth = 960;
-    const mapHeight = 600;
-
-    // Normalize coordinates
-    const x = ((lng + 180) / 360) * mapWidth;
-    const y = ((90 - lat) / 180) * mapHeight;
-
-    return { x, y };
-  }
-
   // Get user's geolocation
   async getUserLocation() {
     return new Promise((resolve) => {
-      // Try to get location from geolocation API
+      // Try browser geolocation first
       if (navigator.geolocation) {
+        const timeout = setTimeout(() => {
+          this.getUserLocationFromIP();
+          resolve();
+        }, 6000);
+
         navigator.geolocation.getCurrentPosition(
           (position) => {
+            clearTimeout(timeout);
             this.userLocation = {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
-              accuracy: position.coords.accuracy
+              accuracy: position.coords.accuracy,
+              source: 'browser'
             };
             this.getLocationName();
             resolve();
           },
           (error) => {
-            // Fallback: get from IP geolocation API
+            clearTimeout(timeout);
+            console.log('Geolocation error, trying IP-based detection:', error.message);
             this.getUserLocationFromIP();
             resolve();
-          },
-          { timeout: 5000 }
+          }
         );
       } else {
-        // Fallback: use IP-based geolocation
         this.getUserLocationFromIP();
         resolve();
       }
@@ -161,57 +128,118 @@ class WorldMapTracker {
   // Get location from IP address using free API
   async getUserLocationFromIP() {
     try {
-      const response = await fetch('https://ipapi.co/json/');
+      const response = await fetch('https://ipapi.co/json/', {
+        mode: 'cors',
+        method: 'GET'
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
       const data = await response.json();
 
       this.userLocation = {
         lat: parseFloat(data.latitude),
         lng: parseFloat(data.longitude),
-        city: data.city,
-        country: data.country_name
+        city: data.city || data.region_code || 'Unknown',
+        country: data.country_name || 'Unknown',
+        source: 'ip'
       };
+
+      this.getLocationName();
     } catch (error) {
-      console.log('Unable to determine location:', error);
+      console.log('IP geolocation failed:', error);
+      // Try alternative API
+      this.getUserLocationFromAlternativeAPI();
+    }
+  }
+
+  // Try alternative geolocation API
+  async getUserLocationFromAlternativeAPI() {
+    try {
+      const response = await fetch('https://geolocation-db.com/json/geoip.php', {
+        mode: 'cors',
+        method: 'GET'
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const data = await response.json();
+
+      this.userLocation = {
+        lat: parseFloat(data.latitude),
+        lng: parseFloat(data.longitude),
+        city: data.city || 'Unknown',
+        country: data.country_name || 'Unknown',
+        source: 'alt-ip'
+      };
+
+      this.getLocationName();
+    } catch (error) {
+      console.log('Alternative API failed, using defaults:', error);
       this.userLocation = {
         lat: 0,
         lng: 0,
-        city: 'Unknown',
-        country: 'Unknown'
+        city: 'Unable to detect',
+        country: 'location',
+        source: 'default'
       };
+      this.displayUserLocation();
     }
+  }
+
+  // Get friendly location name (already done by IP APIs)
+  async getLocationName() {
+    // IP APIs already provide city and country
+    // No need for reverse geocoding
+    this.displayUserLocation();
   }
 
   // Display user location on map
   displayUserLocation() {
-    if (!this.userLocation) return;
+    if (!this.userLocation || !this.map) return;
 
-    const coords = this.latLngToMapCoords(
-      this.userLocation.lat,
-      this.userLocation.lng
-    );
-
-    const mapContainer = document.querySelector('.world-map');
-    const pinpoint = document.getElementById('map-pinpoint');
-
-    if (pinpoint && mapContainer) {
-      const mapRect = mapContainer.getBoundingClientRect();
-      const mapWidth = mapContainer.offsetWidth;
-      const mapHeight = mapContainer.offsetHeight;
-
-      // Calculate position as percentage
-      const x = (coords.x / 960) * 100;
-      const y = (coords.y / 600) * 100;
-
-      pinpoint.style.left = x + '%';
-      pinpoint.style.top = y + '%';
-      pinpoint.style.display = 'block';
+    // Remove old marker if exists
+    if (this.userMarker) {
+      this.map.removeLayer(this.userMarker);
     }
 
-    // Update location text
+    const { lat, lng, city, country } = this.userLocation;
+
+    // Create custom marker with neon styling
+    const customIcon = L.divIcon({
+      className: 'custom-visitor-marker',
+      html: `
+        <div class="visitor-marker-inner">
+          <div class="visitor-marker-pulse"></div>
+          <div class="visitor-marker-dot"></div>
+        </div>
+      `,
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],
+      popupAnchor: [0, -16]
+    });
+
+    this.userMarker = L.marker([lat, lng], { icon: customIcon })
+      .addTo(this.map)
+      .bindPopup(`<div style="color: #d6ff00; font-family: 'PT Mono', monospace; text-align: center;">
+        <strong>${city}</strong><br/>
+        <small>${country}</small>
+      </div>`, {
+        className: 'visitor-popup',
+        closeButton: false
+      });
+
+    // Pan to user location
+    this.map.setView([lat, lng], 3);
+
+    // Update location display
+    this.updateLocationDisplay(city, country);
+  }
+
+  // Update visitor location display
+  updateLocationDisplay(city, country) {
     const locationEl = document.getElementById('visitor-location');
     if (locationEl) {
-      const city = this.userLocation.city || 'Unknown';
-      const country = this.userLocation.country || 'Unknown';
       locationEl.textContent = `${city}, ${country}`;
     }
   }
@@ -230,11 +258,18 @@ class WorldMapTracker {
   }
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
+// Initialize when Leaflet is loaded and DOM is ready
+function initializeWhenReady() {
+  if (typeof L !== 'undefined' && document.readyState !== 'loading') {
     new WorldMapTracker();
-  });
-} else {
-  new WorldMapTracker();
+  } else if (typeof L !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+      new WorldMapTracker();
+    });
+  } else {
+    // Wait for Leaflet to load
+    setTimeout(initializeWhenReady, 100);
+  }
 }
+
+initializeWhenReady();
