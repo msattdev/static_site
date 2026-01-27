@@ -1,10 +1,10 @@
 // Projects data copied from app.py and renderer
 const PROJECTS = [
   {
-    title: "Minimalist Portfolio",
-    description: "You're looking at it! The goal was to create a clean, responsive portfolio site using only HTML, CSS, and JavaScript. No frameworks, just pure web technologies. Feel free to explore the source code on GitHub.",
-    url: "https://msattdev.github.io/static_site/",
-    tags: ["HTML/CSS", "JavaScript"],
+    title: "VulnBrief",
+    description: "A Python-based CVE (Common Vulnerabilities and Exposures) lookup tool that provides TLDR-style security briefs for vulnerabilities. It fetches data from various sources and presents it in a concise format, making it easier for security professionals to understand and assess vulnerabilities quickly.",
+    url: "https://github.com/msattdev/VulnBrief",
+    tags: ["Python"],
   },
   {
     title: "URL Checker",
@@ -13,15 +13,15 @@ const PROJECTS = [
     tags: ["Python"],
   },
   {
-    title: "Automate the Boring Stuff Projects",
-    description: "This repository contains various projects created while working through 'Automate the Boring Stuff with Python' by Al Sweigart. The projects focus on automating everyday tasks using Python scripts.",
-    url: "https://github.com/msattdev/automate_boring_stuff",
-    tags: ["Python"],
-  },
-  {
     title: "Scan Me Maybe",
     description: "A simple Python application that generates QR codes for URLs, text, or other data. Built using the 'qrcode' library, this project demonstrates basic Python programming and file handling.",
     url: "https://github.com/msattdev/Scan-Me-Maybe",
+    tags: ["Python"],
+  },
+  {
+    title: "Automate the Boring Stuff Projects",
+    description: "This repository contains various projects created while working through 'Automate the Boring Stuff with Python' by Al Sweigart. The projects focus on automating everyday tasks using Python scripts.",
+    url: "https://github.com/msattdev/automate_boring_stuff",
     tags: ["Python"],
   }
 ];
